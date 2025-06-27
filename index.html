@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slider de Produtos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Garante que o body ocupe a tela toda */
+      margin: 0; /* Remove margens padrão */
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .product {
+      width: 500px;
+      height: 350px;
+      padding: 40px;
+      background-color: white;
+      border: 5px solid #ddd;
+      text-align: center;
+      font-size: 26px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex; /* Adicionado para centralizar conteúdo */
+      flex-direction: column; /* Adicionado para alinhar verticalmente */
+      justify-content: center; /* Adicionado para centralizar verticalmente */
+      align-items: center; /* Adicionado para centralizar horizontalmente */
+    }
+
+    button {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      font-size: 28px;
+      font-weight: bold;
+      padding: 10px;
+      cursor: pointer;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover:not(:disabled) {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    button:disabled {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider-container">
+    <button id="prevBtn">⟨</button>
+
+    <div class="product" id="productDisplay">
+      </div>
+
+    <button id="nextBtn">⟩</button>
+  </div>
+
+  <script>
+    const products = [
+      { name: 'Emenda p/RJ45', img: 'https://m.media-amazon.com/images/I/31IqVXFHs6L._AC_SX679_.jpg' },
+      { name: 'Kit 100 Conector Rj45 Cat5e', img: 'https://http2.mlstatic.com/D_NQ_NP_980804-MLU74867760796_032024-O.webp' },
+      { name: 'Cabo Extensor Usb 3 Metros Reforçado Macho Fêmea 3.0 Turbo', img: 'https://http2.mlstatic.com/D_NQ_NP_904945-MLA80782353341_112024-O.webp' },
+    ];
+
+    const display = document.getElementById('productDisplay');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentIndex = 0;
+
+    function updateDisplay() {
+      const product = products[currentIndex];
+
+      // Limpa o conteúdo anterior
+      display.innerHTML = '';
+
+      // Cria o elemento de imagem (se houver)
+      if (product.img) {
+        const img = document.createElement('img');
+        img.src = product.img;
+        img.alt = product.name;
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '250px';
+        img.style.marginBottom = '5px';
+        display.appendChild(img);
+      }
+
+      // Cria o nome do produto
+      const name = document.createElement('p');
+      name.textContent = product.name;
+      display.appendChild(name);
+
+      // Ativa ou desativa botões
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === products.length - 1;
+    }
+
+    // Navegação
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateDisplay();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex < products.length - 1) {
+        currentIndex++;
+        updateDisplay();
+      }
+    });
+
+    // Inicializa
+    updateDisplay();
+  </script>
+
+</body>
+</html>
